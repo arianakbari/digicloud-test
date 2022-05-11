@@ -5,6 +5,15 @@ name = "pypi"
 
 [packages]
 django = "==3.2"
+djangorestframework = "*"
+markdown = "*"
+feedparser = "*"
+djangorestframework-simplejwt = "*"
+django-crontab = "*"
+redis = "*"
+eventlet = "*"
+python-dateutil = "*"
+requests = "*"
 
 [dev-packages]
 
