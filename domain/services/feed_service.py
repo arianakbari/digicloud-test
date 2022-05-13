@@ -1,17 +1,15 @@
-
-
 from domain.boundaries.input.feed_item_service_abstract import FeedItemServiceAbstract
 from domain.boundaries.input.feed_service_abstract import FeedServiceAbstract
 from domain.boundaries.output.feed_parser_abstract import FeedParserAbstract
 from domain.boundaries.output.feed_repository_abstract import FeedRepositoryAbstract
 
-class FeedService(FeedServiceAbstract):
 
+class FeedService(FeedServiceAbstract):
     def __init__(
         self,
-        feed_repository: FeedRepositoryAbstract, 
-        feed_item_service: FeedItemServiceAbstract, 
-        feed_parser: FeedParserAbstract
+        feed_repository: FeedRepositoryAbstract,
+        feed_item_service: FeedItemServiceAbstract,
+        feed_parser: FeedParserAbstract,
     ):
         self.feed_repository = feed_repository
         self.feed_item_service = feed_item_service
@@ -27,7 +25,7 @@ class FeedService(FeedServiceAbstract):
         return self.feed_repository.insert(link, user_id)
 
     def update_feed(self, id: int, **kwargs):
-        self.feed_repository.update_feed(id,**kwargs)
+        self.feed_repository.update_feed(id, **kwargs)
 
     def get_feed_by_id(self, id: int):
         return self.feed_repository.get_feed(id=id)
@@ -41,21 +39,22 @@ class FeedService(FeedServiceAbstract):
             return
         data = self.feed_parser.get_posts(feed.link)
         if data is None:
-            self.update_feed(feed.id, last_try_success= False)
+            self.update_feed(feed.id, last_try_success=False)
             return
 
-
         if not update_mode:
-            self.update_feed(feed.id, title= data['title'], description= data['description'])
+            self.update_feed(
+                feed.id, title=data["title"], description=data["description"]
+            )
 
-        for post in data['posts']:
+        for post in data["posts"]:
             try:
                 self.feed_item_service.insert_item(feed.id, feed.user_id, **post)
             except:
-                self.update_feed(feed.id, last_try_success= False)
+                self.update_feed(feed.id, last_try_success=False)
                 return
 
-        self.update_feed(feed.id, last_try_success= True)
+        self.update_feed(feed.id, last_try_success=True)
 
     def retry_failed_feeds(self):
         feeds = self.feed_repository.get_feeds(last_try_success=False)
@@ -66,8 +65,3 @@ class FeedService(FeedServiceAbstract):
         feeds = self.feed_repository.get_feeds()
         for feed in feeds:
             self.populate_feed(feed.id, False)
-
-    
-    
-
-

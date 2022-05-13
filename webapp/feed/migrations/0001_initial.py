@@ -15,49 +15,114 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Feed',
+            name="Feed",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(blank=True, max_length=255, null=True)),
-                ('link', models.URLField()),
-                ('description', models.TextField(blank=True, null=True)),
-                ('last_try_success', models.BooleanField(default=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='feeds', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(blank=True, max_length=255, null=True)),
+                ("link", models.URLField()),
+                ("description", models.TextField(blank=True, null=True)),
+                ("last_try_success", models.BooleanField(default=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="feeds",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='FeedItem',
+            name="FeedItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('link', models.URLField()),
-                ('description', models.TextField(blank=True, null=True)),
-                ('author', models.CharField(blank=True, max_length=255, null=True)),
-                ('guid', models.CharField(blank=True, max_length=255, null=True)),
-                ('publish_date', models.DateTimeField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('feed', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='feed.feed')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("link", models.URLField()),
+                ("description", models.TextField(blank=True, null=True)),
+                ("author", models.CharField(blank=True, max_length=255, null=True)),
+                ("guid", models.CharField(blank=True, max_length=255, null=True)),
+                ("publish_date", models.DateTimeField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "feed",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="items",
+                        to="feed.feed",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='UserFeedItem',
+            name="UserFeedItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_read', models.BooleanField(default=False)),
-                ('is_bookmarked', models.BooleanField(default=False)),
-                ('is_favorite', models.BooleanField(default=False)),
-                ('feed_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='feed.feeditem')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='feed_items', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("is_read", models.BooleanField(default=False)),
+                ("is_bookmarked", models.BooleanField(default=False)),
+                ("is_favorite", models.BooleanField(default=False)),
+                (
+                    "feed_item",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="feed.feeditem"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="feed_items",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='FeedItemComment',
+            name="FeedItemComment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('feed_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='feed.feeditem')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("content", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "feed_item",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="comments",
+                        to="feed.feeditem",
+                    ),
+                ),
             ],
         ),
     ]

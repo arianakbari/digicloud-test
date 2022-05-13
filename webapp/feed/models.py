@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class Feed(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     link = models.URLField()
@@ -15,6 +16,7 @@ class Feed(models.Model):
 
     def __str__(self):
         return self.link
+
 
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed, related_name="items", on_delete=models.CASCADE)
@@ -29,8 +31,11 @@ class FeedItem(models.Model):
     def __str__(self):
         return f"{self.title} | {self.feed.title}"
 
+
 class FeedItemComment(models.Model):
-    feed_item = models.ForeignKey(FeedItem, related_name="comments", on_delete=models.CASCADE)
+    feed_item = models.ForeignKey(
+        FeedItem, related_name="comments", on_delete=models.CASCADE
+    )
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

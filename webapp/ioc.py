@@ -4,7 +4,9 @@ from domain.boundaries.input.feed_service_abstract import FeedServiceAbstract
 from domain.boundaries.input.feed_item_service_abstract import FeedItemServiceAbstract
 from domain.boundaries.output.feed_parser_abstract import FeedParserAbstract
 from domain.boundaries.output.feed_repository_abstract import FeedRepositoryAbstract
-from domain.boundaries.output.feed_item_repository_abstract import FeedItemRepositoryAbstract
+from domain.boundaries.output.feed_item_repository_abstract import (
+    FeedItemRepositoryAbstract,
+)
 
 
 from domain.services.feed_service import FeedService
@@ -12,7 +14,6 @@ from domain.services.feed_item_service import FeedItemService
 from adapters.feed_parser import FeedParser
 from webapp.feed.services.feed_repository import FeedRepository
 from webapp.feed.services.feed_item_repository import FeedItemRepository
-
 
 
 container = punq.Container()
@@ -38,5 +39,3 @@ def get_ioc_view(cls, **initkwargs):
     view.__dict__.update(cls.dispatch.__dict__)
 
     return view
-
-
