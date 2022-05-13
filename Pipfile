@@ -5,8 +5,24 @@ name = "pypi"
 
 [packages]
 django = "==3.2"
+djangorestframework = "*"
+markdown = "*"
+feedparser = "*"
+djangorestframework-simplejwt = "*"
+django-crontab = "*"
+redis = "*"
+eventlet = "*"
+python-dateutil = "*"
+requests = "*"
+punq = "*"
+black = "*"
 
 [dev-packages]
+flake8 = "*"
+black = "*"
 
 [requires]
 python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true
