@@ -15,19 +15,19 @@ from pathlib import Path
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-j=7qo&3%uc&$7cxd8wki^)-*c-_6fr!5qepx1&gr8%4u&8#u8o'
+SECRET_KEY = os.environ.get("SECRET_KEY", 'django-insecure-j=7qo&3%uc&$7cxd8wki^)-*c-_6fr!5qepx1&gr8%4u&8#u8o')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_crontab',
-    'user',
-    'feed'
+    'webapp.user',
+    'webapp.feed'
 ]
 
 MIDDLEWARE = [
@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'digicloud.urls'
+ROOT_URLCONF = 'webapp.config.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'digicloud.wsgi.application'
+WSGI_APPLICATION = 'webapp.config.wsgi.application'
 
 
 # Database
@@ -111,9 +111,12 @@ REST_FRAMEWORK = {
     ],
 }
 
+
+
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=int(os.environ.get('ACCESS_TOKEN_LIFETIME', 1))),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.environ.get('REFRESH_TOKEN_LIFETIME', 1))),
 }
 
 
@@ -142,8 +145,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRONJOBS = [
-    ('0 * * * *', 'feed.crons.retry_failed_feeds'),
-    ('0 0 * * *', 'feed.crons.refresh_feeds')
+    ('0 * * * *', 'webapp.feed.crons.retry_failed_feeds'),
+    ('0 0 * * *', 'webapp.feed.crons.refresh_feeds')
 ]
 
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://127.0.0.1:6379/0')

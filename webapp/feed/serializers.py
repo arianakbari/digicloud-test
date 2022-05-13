@@ -6,7 +6,9 @@ class FeedItemCommentSerializer(serializers.ModelSerializer):
         model = FeedItemComment
         fields = ['id', 'content', 'created_at']
         read_only_fields = ['id', 'created_at']
-        write_only_fields = ['feed_item']
+        extra_kwargs = {
+            'feed_item': {'write_only': True}
+        }
 
 class FeedItemSerializer(serializers.ModelSerializer):
     comments = FeedItemCommentSerializer(many=True, read_only=True)
@@ -34,4 +36,6 @@ class FeedSerializer(serializers.ModelSerializer):
         model = Feed
         fields = ['id', 'link', 'title', 'description', 'items', 'user']
         read_only_fields = ['title', 'description', 'items']
-        write_only_fields = ['user']
+        extra_kwargs = {
+            'user': {'write_only': True}
+        }

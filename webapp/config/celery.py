@@ -3,7 +3,7 @@ import os
 from celery import Celery
 
 # setting the Django settings module.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'digicloud.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'webapp.config.settings')
 app = Celery('digicloud')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
